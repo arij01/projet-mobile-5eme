@@ -1,4 +1,4 @@
-package tn.esprit.eventsphresocial;
+package tn.esprit.eventsphresocial.entity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import tn.esprit.eventsphresocial.R;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
@@ -27,7 +29,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-        holder.commentTextView.setText(comment.getCommentText());
+        holder.commentTextView.setText(comment.getCmtText());
     }
 
     @Override

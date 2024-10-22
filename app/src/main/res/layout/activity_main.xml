@@ -57,6 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
+
         <!-- Post Button -->
         <Button
             android:id="@+id/postButton"
