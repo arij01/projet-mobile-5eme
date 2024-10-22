@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "tn.esprit.eventsphresocial"
+    namespace = "tn.esprit.eventsphere"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "tn.esprit.eventsphresocial"
+        applicationId = "tn.esprit.eventsphere"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

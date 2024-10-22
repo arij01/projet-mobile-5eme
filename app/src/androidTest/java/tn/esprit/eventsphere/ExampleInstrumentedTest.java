@@ -1,4 +1,4 @@
-package tn.esprit.eventsphresocial;
+package tn.esprit.eventsphere;
 
 import android.content.Context;
 

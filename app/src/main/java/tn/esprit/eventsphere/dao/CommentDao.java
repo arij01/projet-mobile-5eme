@@ -1,4 +1,4 @@
-package tn.esprit.eventsphresocial.dao;
+package tn.esprit.eventsphere.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -8,7 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import tn.esprit.eventsphresocial.entity.Comment;
+import tn.esprit.eventsphere.entity.Comment;
 
 @Dao
 public interface CommentDao {

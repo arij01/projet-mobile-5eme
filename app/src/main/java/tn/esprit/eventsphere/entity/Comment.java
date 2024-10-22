@@ -1,4 +1,4 @@
-package tn.esprit.eventsphresocial.entity;
+package tn.esprit.eventsphere.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

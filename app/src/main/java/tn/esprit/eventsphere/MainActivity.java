@@ -1,8 +1,7 @@
-package tn.esprit.eventsphresocial;
+package tn.esprit.eventsphere;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -13,14 +12,13 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import tn.esprit.eventsphresocial.database.AppDatabase;
-import tn.esprit.eventsphresocial.entity.Comment;
-import tn.esprit.eventsphresocial.entity.CommentAdapter;
+import tn.esprit.eventsphere.database.AppDatabase;
+import tn.esprit.eventsphere.entity.Comment;
+import tn.esprit.eventsphere.entity.CommentAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

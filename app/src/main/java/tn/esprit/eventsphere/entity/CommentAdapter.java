@@ -1,4 +1,4 @@
-package tn.esprit.eventsphresocial.entity;
+package tn.esprit.eventsphere.entity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import tn.esprit.eventsphresocial.R;
+import tn.esprit.eventsphere.R;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
