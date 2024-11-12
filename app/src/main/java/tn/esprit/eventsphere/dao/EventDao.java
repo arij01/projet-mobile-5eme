@@ -10,10 +10,12 @@ import java.util.List;
 
 
 import tn.esprit.eventsphere.entity.Event;
+import tn.esprit.eventsphere.entity.Share;
+
 @Dao
 public interface EventDao {
     @Insert
-    long insertEvent(Event event);
+    void insertEvent(Event event);
     @Query("SELECT * FROM events")
     List<Event> getAllEvents();
     @Update
@@ -22,4 +24,6 @@ public interface EventDao {
     // Delete a specific comment
     @Delete
     void deleteEvent(Event event);
+    @Query("SELECT * FROM events WHERE id = :eventId")
+    Event getEventById(int eventId);
 }

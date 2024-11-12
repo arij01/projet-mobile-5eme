@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements CommentAdapter.Co
     private Button postButton;
     private AppDatabase db;
     private ExecutorService executor;
-    private EventDao eventDao;
-    private ShareDao shareDao;
+//    private EventDao eventDao;
+//    private ShareDao shareDao;
 
 
     @Override
@@ -132,24 +132,24 @@ public class MainActivity extends AppCompatActivity implements CommentAdapter.Co
         });
     }
     // Method to test Share functionality
-    private void testShareFeature() {
-        executor.execute(() -> {
-            // Create a temporary Event for testing
-            Event tempEvent = new Event("Temporary Event for Testing");
-            long eventId = eventDao.insertEvent(tempEvent);
-
-            // Create a Share associated with this Event
-            Share share = new Share((int) eventId, "Facebook");
-            shareDao.insertShare(share);
-
-            // Fetch and log the share to verify
-            Share fetchedShare = shareDao.getShareByEventId((int) eventId);
-            if (fetchedShare != null) {
-                Log.d("ShareTest", "Shared on: " + fetchedShare.getPlatform());
-            } else {
-                Log.d("ShareTest", "Share not found.");
-            }
-        });
-    }
+//    private void testShareFeature() {
+//        executor.execute(() -> {
+//            // Create a temporary Event for testing
+//            Event tempEvent = new Event("Temporary Event for Testing");
+//            long eventId = eventDao.insertEvent(tempEvent);
+//
+//            // Create a Share associated with this Event
+//            Share share = new Share((int) eventId, "Facebook");
+//            shareDao.insertShare(share);
+//
+//            // Fetch and log the share to verify
+//            Share fetchedShare = shareDao.getShareByEventId((int) eventId);
+//            if (fetchedShare != null) {
+//                Log.d("ShareTest", "Shared on: " + fetchedShare.getPlatform());
+//            } else {
+//                Log.d("ShareTest", "Share not found.");
+//            }
+//        });
+//    }
 
 }

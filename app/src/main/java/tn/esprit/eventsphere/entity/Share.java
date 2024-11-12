@@ -71,8 +71,12 @@ public class Share {
 
 
 
-    public Share(int id, String platform) {
-        this.id = id;
+//    public Share(int id, String platform) {
+//        this.id = id;
+//        this.platform = platform;
+//    }
+    public Share(int eventId, String platform) {
+        this.eventId = eventId;
         this.platform = platform;
     }
 
