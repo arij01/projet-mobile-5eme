@@ -29,7 +29,8 @@ public class ShareActivity extends AppCompatActivity {
     private void shareEventOnPlatform(String platform) {
         long timestamp = System.currentTimeMillis();
 
-        Share share = new Share(eventId, user, platform, timestamp);
+        //Share share = new Share(eventId, user, platform, timestamp);
+        Share share = new Share(eventId, platform);
 
         // Insert share data into the database
         new Thread(() -> {

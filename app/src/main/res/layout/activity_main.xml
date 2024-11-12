@@ -69,6 +69,7 @@
             app:layout_constraintBottom_toBottomOf="@id/commentInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/commentInput" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,13 +69,17 @@ public class Share {
         this.timestamp = timestamp;
     }
 
-    public Share(int id) {
+
+
+    public Share(int id, String platform) {
         this.id = id;
-    }
-    public Share(int eventId, String sharedByUser, String platform, long timestamp) {
-        this.eventId = eventId;
-        this.sharedByUser = sharedByUser;
         this.platform = platform;
-        this.timestamp = timestamp;
     }
+
+//    public Share(int eventId, String sharedByUser, String platform, long timestamp) {
+//        this.eventId = eventId;
+//        this.sharedByUser = sharedByUser;
+//        this.platform = platform;
+//        this.timestamp = timestamp;
+//    }
 }

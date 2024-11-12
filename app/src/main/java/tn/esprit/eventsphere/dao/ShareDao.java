@@ -26,5 +26,7 @@ public interface ShareDao {
 
     @Query("DELETE FROM shares WHERE event_id = :eventId")
     void deleteSharesByEvent(int eventId);
+    @Query("SELECT * FROM shares WHERE event_id = :eventId")
+    Share getShareByEventId(int eventId);
 }
 
