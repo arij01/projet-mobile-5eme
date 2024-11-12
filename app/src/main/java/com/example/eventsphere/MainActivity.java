@@ -1,12 +1,8 @@
 package com.example.eventsphere;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -18,28 +14,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.eventsphere.entity.Event;
-import com.example.eventsphere.entity.EventAdapter;
 import com.example.eventsphere.entity.DatabaseHelper;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int IMAGE_PICK_CODE = 1000; // Code to pick an image
+    private static final int IMAGE_PICK_CODE = 1000;
     private DatabaseHelper databaseHelper;
     private EditText editTextName, editTextLocation, editTextDescription;
-    private TextView editTextDate; // Change to TextView for date
+    private TextView editTextDate;
     private Button buttonAdd, buttonSelectImage;
-    private ImageView imageView; // ImageView for displaying selected image
-    private RecyclerView recyclerView;
-    private EventAdapter eventAdapter;
-    private List<Event> eventList;
-    private Uri selectedImageUri; // URI for the selected image
+    private ImageView imageView;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +39,8 @@ public class MainActivity extends AppCompatActivity {
         editTextLocation = findViewById(R.id.editTextLocation);
         editTextDescription = findViewById(R.id.editTextDescription);
         buttonAdd = findViewById(R.id.buttonAdd);
-        imageView = findViewById(R.id.imageView);
         buttonSelectImage = findViewById(R.id.buttonSelectImage);
-
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        eventList = new ArrayList<>();
-        eventAdapter = new EventAdapter(eventList, this);
-        recyclerView.setAdapter(eventAdapter);
+        imageView = findViewById(R.id.imageView);
 
         // Initialize database helper
         databaseHelper = new DatabaseHelper(this);
@@ -88,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 addEvent();
             }
         });
-
-        // Load events on activity creation
-        loadEvents();
     }
 
     private void showDatePickerDialog() {
@@ -100,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         new android.app.DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
-            // Display selected date in the TextView
             String date = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
             editTextDate.setText(date);
         }, year, month, day).show();
@@ -115,15 +91,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData(); // Get the image URI
+            selectedImageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                imageView.setImageBitmap(bitmap); // Set the image in the ImageView
+                imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     private void addEvent() {
         String name = editTextName.getText().toString();
         String date = editTextDate.getText().toString();
@@ -149,47 +126,21 @@ public class MainActivity extends AppCompatActivity {
         long eventId = db.insert("events", null, values);
         db.close();
 
-        // Assuming eventId is generated automatically, cast it to int
-        Event event = new Event((int) eventId, name, date, location, description, selectedImageUri != null ? selectedImageUri.toString() : null);
+        if (eventId != -1) {
+            Toast.makeText(this, "Event added", Toast.LENGTH_SHORT).show();
 
-        // Clear input fields
-        editTextName.setText("");
-        editTextDate.setText("");
-        editTextLocation.setText("");
-        editTextDescription.setText("");
-        imageView.setImageResource(0); // Clear the image view
+            // Clear input fields
+            editTextName.setText("");
+            editTextDate.setText("");
+            editTextLocation.setText("");
+            editTextDescription.setText("");
+            imageView.setImageResource(0); // Clear the image view
 
-        Toast.makeText(this, "Event added", Toast.LENGTH_SHORT).show();
-
-        // Load events
-        loadEvents();
-
-        // Navigate to EventListActivity
-        Intent intent = new Intent(MainActivity.this, EventListActivity.class);
-        intent.putExtra("eventList", (ArrayList<Event>) eventList); // Pass the event list to the new activity
-        startActivity(intent);
-    }
-
-    // Method to load events from the database
-    private void loadEvents() {
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.query("events", null, null, null, null, null, null);
-
-        eventList.clear();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                String date = cursor.getString(cursor.getColumnIndex("date"));
-                String location = cursor.getString(cursor.getColumnIndex("location"));
-                String description = cursor.getString(cursor.getColumnIndex("description"));
-                String imageUri = cursor.getString(cursor.getColumnIndex("image"));
-
-                Event event = new Event(name, date, location, description, imageUri);
-                eventList.add(event);
-            }
-            cursor.close();
+            // Navigate to EventListActivity
+            Intent intent = new Intent(MainActivity.this, EventListActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Failed to add event", Toast.LENGTH_SHORT).show();
         }
-
-        eventAdapter.notifyDataSetChanged(); // Refresh the adapter
     }
 }
