@@ -5,13 +5,13 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-//@Entity(tableName = "shares",
-//        foreignKeys = @ForeignKey(entity = Event.class,
-//                parentColumns = "id",
-//                childColumns = "event_id",
-//                onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "shares",
+        foreignKeys = @ForeignKey(entity = Event.class,
+                parentColumns = "id",
+                childColumns = "event_id",
+                onDelete = ForeignKey.CASCADE))
 
-@Entity(tableName = "shares")
+//@Entity(tableName = "shares")
 public class Share {
 
     @PrimaryKey(autoGenerate = true)
