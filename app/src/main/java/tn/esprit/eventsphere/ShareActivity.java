@@ -2,7 +2,10 @@ package tn.esprit.eventsphere;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -12,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -97,8 +102,8 @@ public class ShareActivity extends AppCompatActivity {
                             shareToTwitter(content);
                             break;
                         case "Instagram":
-                            Uri imageUri = Uri.parse("file://path_to_your_image.jpg");
-                            shareToInstagram(imageUri);
+                            //Uri imageUri = Uri.parse("file://path_to_your_image.jpg");
+                            shareToInstagram();
                             break;
                         default:
                             shareText(content);
@@ -114,7 +119,7 @@ public class ShareActivity extends AppCompatActivity {
         });
     }
 
-    // Share content to Facebook using Facebook SDK
+    //  using Facebook SDK
     private void shareToFacebook(String content) {
         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                 .setQuote(content)
@@ -123,31 +128,44 @@ public class ShareActivity extends AppCompatActivity {
         ShareDialog.show(this, linkContent);
     }
 
-    // Share content to Twitter using Twitter's URL scheme
+    // using Twitter's URL scheme
     private void shareToTwitter(String text) {
         String tweetUrl = "https://twitter.com/intent/tweet?text=" + Uri.encode(text);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
         startActivity(intent);
     }
+    //save image to Picture foder before sharing
+    private void saveTestImageToExternalStorage() {
+        try {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shared_image); // Replace with actual drawable name
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "shared_image.jpg");
 
-    // Share an image to Instagram
-    private void shareToInstagram(Uri imageUri) {
-        File imageFile = new File(getExternalFilesDir("Pictures"), "shared_image.jpg");
+            FileOutputStream out = new FileOutputStream(dir);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void shareToInstagram() {
+        saveTestImageToExternalStorage(); // Ensure image is saved
+
+        File imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "shared_image.jpg");
 
         if (!imageFile.exists()) {
             Toast.makeText(this, "Image not found.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
-
+        Uri contentUri = FileProvider.getUriForFile(this, "tn.esprit.eventsphere.fileprovider", imageFile);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
         shareIntent.setPackage("com.instagram.android");
 
-        // Grant Instagram temporary access to read this file
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
@@ -157,5 +175,6 @@ public class ShareActivity extends AppCompatActivity {
             Log.e("ShareActivity", "Instagram app is not available.", e);
         }
     }
+
 
 }

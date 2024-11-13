@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class Event {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String title; // Example field; add more if necessary for testing
+    private String title;
 
     public Event(String title) {
         this.title = title;
