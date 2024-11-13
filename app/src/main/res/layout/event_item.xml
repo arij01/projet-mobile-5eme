@@ -3,49 +3,82 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_gravity="center">
 
+    <!-- Image de l'événement avec une bordure arrondie et une image de fond -->
     <ImageView
         android:id="@+id/eventImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
         android:src="@drawable/image"
-        android:contentDescription="@string/event_image" />
+        android:contentDescription="@string/event_image"
+        android:layout_marginBottom="12dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circular_border" /> <!-- Assurez-vous d'avoir un drawable pour la bordure -->
 
+    <!-- Nom de l'événement -->
     <TextView
         android:id="@+id/eventNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Name" />
+        android:text="Event Name"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Date de l'événement -->
     <TextView
         android:id="@+id/eventDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Date" />
+        android:text="Event Date"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Lieu de l'événement -->
     <TextView
         android:id="@+id/eventLocationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Location" />
+        android:text="Event Location"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Description de l'événement -->
     <TextView
         android:id="@+id/eventDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Description" />
+        android:text="Event Description"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- Bouton d'édition avec un fond coloré et des bords arrondis -->
     <Button
         android:id="@+id/editButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit" />
+        android:text="Edit"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp" />
 
+    <!-- Bouton de suppression avec un fond coloré et des bords arrondis -->
     <Button
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete" />
+        android:text="Delete"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_dark"
+        android:padding="12dp" />
 
 </LinearLayout>
