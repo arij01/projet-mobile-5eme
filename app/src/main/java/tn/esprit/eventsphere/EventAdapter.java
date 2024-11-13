@@ -38,17 +38,18 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
-        holder.eventTextView.setText(event.getName());
 
-        // Set up edit button click listener
-        holder.editButton.setOnClickListener(v -> {
-            listener.onEditEvent(event, position);
-        });
+        // Affichage des détails de l'événement
+        holder.eventNameTextView.setText(event.getName());
+        holder.eventDateTextView.setText(event.getDate());
+        holder.eventLocationTextView.setText(event.getLocation());
+        holder.eventDescriptionTextView.setText(event.getDescription());
 
-        // Set up delete button click listener
-        holder.deleteButton.setOnClickListener(v -> {
-            listener.onDeleteEvent(event, position);
-        });
+        // Configuration du bouton d'édition
+        holder.editButton.setOnClickListener(v -> listener.onEditEvent(event, position));
+
+        // Configuration du bouton de suppression
+        holder.deleteButton.setOnClickListener(v -> listener.onDeleteEvent(event, position));
     }
 
     @Override
@@ -57,13 +58,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView eventTextView;
-        Button editButton;
-        Button deleteButton;
+        TextView eventNameTextView, eventDateTextView, eventLocationTextView, eventDescriptionTextView;
+        Button editButton, deleteButton;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventTextView = itemView.findViewById(R.id.eventTextView);
+
+            // Liaison des vues avec les IDs définis dans event_item.xml
+            eventNameTextView = itemView.findViewById(R.id.eventNameTextView);
+            eventDateTextView = itemView.findViewById(R.id.eventDateTextView);
+            eventLocationTextView = itemView.findViewById(R.id.eventLocationTextView);
+            eventDescriptionTextView = itemView.findViewById(R.id.eventDescriptionTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }

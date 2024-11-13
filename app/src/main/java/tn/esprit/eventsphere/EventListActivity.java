@@ -1,6 +1,9 @@
 package tn.esprit.eventsphere;
+import android.view.View;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,8 +49,8 @@ public class EventListActivity extends AppCompatActivity implements EventAdapter
 
     @Override
     public void onEditEvent(Event event, int position) {
-        // Handle the edit event, e.g., show an edit screen
-        Toast.makeText(this, "Edit event: " + event.getName(), Toast.LENGTH_SHORT).show();
+        // Show an edit dialog to update event details
+        showEditEventDialog(event, position);
     }
 
     @Override
@@ -62,5 +65,59 @@ public class EventListActivity extends AppCompatActivity implements EventAdapter
                 Toast.makeText(this, "Event deleted", Toast.LENGTH_SHORT).show();
             });
         }).start();
+    }
+
+    private void showEditEventDialog(Event event, int position) {
+        // Create an AlertDialog to edit the event
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edit Event");
+
+        // Inflate custom layout with EditTexts for editing
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_event, null);
+        builder.setView(dialogView);
+
+        // Initialize EditTexts and set existing event details
+        EditText editName = dialogView.findViewById(R.id.editEventName);
+        EditText editDate = dialogView.findViewById(R.id.editEventDate);
+        EditText editLocation = dialogView.findViewById(R.id.editEventLocation);
+        EditText editDescription = dialogView.findViewById(R.id.editEventDescription);
+
+        editName.setText(event.getName());
+        editDate.setText(event.getDate());
+        editLocation.setText(event.getLocation());
+        editDescription.setText(event.getDescription());
+
+        // Handle the "Save" button click
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            // Get updated details
+            String updatedName = editName.getText().toString();
+            String updatedDate = editDate.getText().toString();
+            String updatedLocation = editLocation.getText().toString();
+            String updatedDescription = editDescription.getText().toString();
+
+            // Update event properties
+            event.setName(updatedName);
+            event.setDate(updatedDate);
+            event.setLocation(updatedLocation);
+            event.setDescription(updatedDescription);
+
+            // Update event in the database
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+                db.eventDao().updateEvent(event);  // Assuming updateEvent() is defined in your DAO
+                runOnUiThread(() -> {
+                    // Update the RecyclerView item
+                    eventList.set(position, event);
+                    eventAdapter.notifyItemChanged(position);
+                    Toast.makeText(EventListActivity.this, "Event updated", Toast.LENGTH_SHORT).show();
+                });
+            }).start();
+        });
+
+        // Handle the "Cancel" button click
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        // Show the dialog
+        builder.create().show();
     }
 }
