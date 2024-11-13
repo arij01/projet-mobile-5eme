@@ -35,8 +35,7 @@ public class ShareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        // Initialize Facebook SDK
-        //FacebookSdk.setApplicationId("536252055992308");
+
         FacebookSdk.sdkInitialize(getApplicationContext());
        AppEventsLogger.activateApp(this.getApplication());
 
@@ -63,22 +62,18 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     private void shareEventOnPlatform(String platform) {
-        //long timestamp = System.currentTimeMillis();
 
         executor.execute(() -> {
-            // Retrieve the event with ID 3 (or any other ID based on your needs)
-            Event event = eventDao.getEventById(3); // Adjust to fetch the appropriate event
+
+            Event event = eventDao.getEventById(3);
 
             if (event != null) {
-                // If event exists, create a Share object with the event ID
                 Share share = new Share(3, platform);
 
-                // Insert share data into the database
                 shareDao.insertShare(share);
-                // Share content based on the chosen platform
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Event shared on " + platform, Toast.LENGTH_SHORT).show();
-                    String content = "Check out this amazing event ";// + event.getEventName();
+                    String content = "Check out this amazing event ";
 
                     switch (platform) {
                         case "Facebook":
@@ -87,10 +82,10 @@ public class ShareActivity extends AppCompatActivity {
                         case "Twitter":
                             shareToTwitter(content);
                             break;
-                        case "Instagram":
-                            Uri imageUri = Uri.parse("file://path_to_your_image.jpg"); // Replace with actual image URI
-                            shareToInstagram(imageUri);
-                            break;
+//                        case "Instagram":
+//                            Uri imageUri = Uri.parse("file://path_to_your_image.jpg");
+//                            shareToInstagram(imageUri);
+//                            break;
                         default:
                             shareText(content);
                             break;
