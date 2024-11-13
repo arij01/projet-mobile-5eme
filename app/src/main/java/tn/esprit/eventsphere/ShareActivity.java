@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -130,11 +132,23 @@ public class ShareActivity extends AppCompatActivity {
 
     // Share an image to Instagram
     private void shareToInstagram(Uri imageUri) {
+        File imageFile = new File(getExternalFilesDir("Pictures"), "shared_image.jpg");
+
+        if (!imageFile.exists()) {
+            Toast.makeText(this, "Image not found.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
         shareIntent.setPackage("com.instagram.android");
+
+        // Grant Instagram temporary access to read this file
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
             startActivity(shareIntent);
@@ -143,4 +157,5 @@ public class ShareActivity extends AppCompatActivity {
             Log.e("ShareActivity", "Instagram app is not available.", e);
         }
     }
+
 }
