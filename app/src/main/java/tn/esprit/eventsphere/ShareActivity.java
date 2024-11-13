@@ -1,11 +1,13 @@
 package tn.esprit.eventsphere;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.ExecutorService;
@@ -24,8 +26,6 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
 public class ShareActivity extends AppCompatActivity {
-
-
     private AppDatabase db;
     private EventDao eventDao;
     private ShareDao shareDao;
@@ -37,21 +37,36 @@ public class ShareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-       AppEventsLogger.activateApp(this.getApplication());
+        AppEventsLogger.activateApp(this.getApplication());
 
         // Initialize database and DAOs
         db = AppDatabase.getAppDatabase(this);
         eventDao = db.eventDao();
         shareDao = db.shareDao();
-
         executor = Executors.newSingleThreadExecutor();
 
         // Initialize the share button
         Button shareButton = findViewById(R.id.share_button);
-        shareButton.setOnClickListener(v -> shareEventOnPlatform("Instagram"));
-
-
+        shareButton.setOnClickListener(v -> showPlatformSelectionDialog());
     }
+
+    private void showPlatformSelectionDialog() {
+        // Define available platforms
+        String[] platforms = {"Facebook", "Twitter", "Instagram", "Other"};
+
+        // Create and display a dialog with platform options
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose a platform")
+                .setItems(platforms, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Share on selected platform
+                        shareEventOnPlatform(platforms[which]);
+                    }
+                });
+        builder.create().show();
+    }
+
     private void shareText(String text) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -62,18 +77,15 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     private void shareEventOnPlatform(String platform) {
-
         executor.execute(() -> {
-
             Event event = eventDao.getEventById(3);
 
             if (event != null) {
                 Share share = new Share(3, platform);
-
                 shareDao.insertShare(share);
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Event shared on " + platform, Toast.LENGTH_SHORT).show();
-                    String content = "Check out this amazing event ";
+                    String content = "Check out this amazing event";
 
                     switch (platform) {
                         case "Facebook":
@@ -82,17 +94,16 @@ public class ShareActivity extends AppCompatActivity {
                         case "Twitter":
                             shareToTwitter(content);
                             break;
-//                        case "Instagram":
-//                            Uri imageUri = Uri.parse("file://path_to_your_image.jpg");
-//                            shareToInstagram(imageUri);
-//                            break;
+                        case "Instagram":
+                            Uri imageUri = Uri.parse("file://path_to_your_image.jpg");
+                            shareToInstagram(imageUri);
+                            break;
                         default:
                             shareText(content);
                             break;
                     }
                 });
             } else {
-                // If event does not exist, show an error message
                 runOnUiThread(() ->
                         Toast.makeText(this, "Event with ID 3 not found. Unable to share.", Toast.LENGTH_SHORT).show()
                 );
@@ -100,11 +111,12 @@ public class ShareActivity extends AppCompatActivity {
             }
         });
     }
+
     // Share content to Facebook using Facebook SDK
     private void shareToFacebook(String content) {
         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                 .setQuote(content)
-                .setContentUrl(Uri.parse("https://www.example.com/event")) // Add event-specific link if available
+                .setContentUrl(Uri.parse("https://www.example.com/event"))
                 .build();
         ShareDialog.show(this, linkContent);
     }
