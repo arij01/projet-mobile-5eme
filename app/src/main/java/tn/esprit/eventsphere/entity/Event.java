@@ -3,6 +3,7 @@ package tn.esprit.eventsphere.entity;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo;
 
 @Entity(tableName = "events")
 public class Event {
@@ -14,22 +15,27 @@ public class Event {
     private String location;
     private String description;
 
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB) // Utilisation du type BLOB pour stocker l'image
+    private byte[] image;
+
     // Constructor with id, annotated with @Ignore so that Room does not use it
     @Ignore
-    public Event(int id, String name, String date, String location, String description) {
+    public Event(int id, String name, String date, String location, String description, byte[] image) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.location = location;
         this.description = description;
+        this.image = image;
     }
 
     // Constructor without id (Room will use this one)
-    public Event(String name, String date, String location, String description) {
+    public Event(String name, String date, String location, String description, byte[] image) {
         this.name = name;
         this.date = date;
         this.location = location;
         this.description = description;
+        this.image = image;
     }
 
     // Getters and setters
@@ -71,5 +77,13 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

@@ -1,9 +1,12 @@
 package tn.esprit.eventsphere;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +48,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.eventLocationTextView.setText(event.getLocation());
         holder.eventDescriptionTextView.setText(event.getDescription());
 
+        // Affichage de l'image
+        if (event.getImage() != null && event.getImage().length > 0) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(event.getImage(), 0, event.getImage().length);
+            holder.eventImageView.setImageBitmap(bitmap);
+        } else {
+            holder.eventImageView.setImageResource(R.drawable.image);  // Image par défaut si pas d'image
+        }
+
         // Configuration du bouton d'édition
         holder.editButton.setOnClickListener(v -> listener.onEditEvent(event, position));
 
@@ -60,6 +71,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameTextView, eventDateTextView, eventLocationTextView, eventDescriptionTextView;
         Button editButton, deleteButton;
+        ImageView eventImageView;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +83,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventDescriptionTextView = itemView.findViewById(R.id.eventDescriptionTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            eventImageView = itemView.findViewById(R.id.eventImageView);  // Référence à l'ImageView
         }
     }
 }

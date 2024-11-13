@@ -11,19 +11,25 @@ import tn.esprit.eventsphere.entity.Category;
 import tn.esprit.eventsphere.dao.EventDao;
 import tn.esprit.eventsphere.entity.Event;
 
-@Database(entities = {Event.class, Category.class}, version = 2, exportSchema = false)
+@Database(entities = {Event.class, Category.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static AppDatabase instance;
+    private static volatile AppDatabase instance;  // Use volatile for thread safety
 
+    // Abstract methods to get DAOs
     public abstract CategoryDao categoryDao();
     public abstract EventDao eventDao();
 
+    // Singleton pattern for getting the database instance
     public static AppDatabase getAppDatabase(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "events.db")
-                    .fallbackToDestructiveMigration() // Cette méthode supprime et recrée la base de données lors du changement de version
-                    .build();
+            synchronized (AppDatabase.class) {
+                if (instance == null) {  // Double-check locking
+                    instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "events.db")
+                            .fallbackToDestructiveMigration()  // Optional: handle migrations if needed
+                            .build();
+                }
+            }
         }
         return instance;
     }
