@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/white"
+    tools:context=".LoginActivity">
+
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome Back!"
+        android:textSize="32sp"
+        android:textColor="#333333"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:layout_marginTop="50dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="24dp"
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconTint="#6A6A6A"
+    app:boxStrokeColor="#0076FF"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/welcomeText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Email"
+            android:padding="16dp"
+            android:textColor="#333333"
+            android:textColorHint="#999999"
+            android:textSize="16sp" />
+</com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/passwordInputLayout"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_marginTop="16dp"
+android:layout_marginHorizontal="24dp"
+app:startIconDrawable="@drawable/ic_password"
+    app:startIconTint="#6A6A6A"
+    app:boxStrokeColor="#0076FF"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="#333333"
+        android:textColorHint="#999999"
+        android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_button_background"
+        android:backgroundTint="#0076FF"
+        android:fontFamily="@font/poppins_bold"
+        android:paddingVertical="12dp"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
+        app:layout_constraintVertical_bias="0.069" />
+
+
+    <!-- Existing UI components go here -->
+
+    <TextView
+        android:id="@+id/forgotPasswordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_regular"
+        android:gravity="center"
+        android:text="Forgot Password?"
+        android:textColor="#0076FF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Google Button -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#FCF3F6"
+            android:background="@drawable/circle_border"            android:src="@drawable/google_icon"
+            android:contentDescription="Google Login"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"/>
+
+        <!-- Facebook Button -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#FCF3F6"
+            android:background="@drawable/circle_border"            android:src="@drawable/facebook_icon"
+            android:contentDescription="Facebook Login"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"/>
+
+        <!-- Twitter Button -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#FCF3F6"
+            android:background="@drawable/circle_border"            android:src="@drawable/twitter_icon"
+            android:contentDescription="Twitter Login"
+            android:scaleType="centerInside"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
