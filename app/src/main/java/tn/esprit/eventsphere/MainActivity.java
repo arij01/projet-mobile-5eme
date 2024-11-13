@@ -13,13 +13,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Bind the button
+        // Bind the buttons
         Button addEventButton = findViewById(R.id.addEventButton);
+        Button addCategoryButton = findViewById(R.id.addCategoryButton);  // Button for adding category
 
         // Set OnClickListener for the add event button
         addEventButton.setOnClickListener(v -> {
             // Start AddEventActivity
             Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        });
+
+        // Set OnClickListener for the add category button
+        addCategoryButton.setOnClickListener(v -> {
+            // Start AddCategoryActivity
+            Intent intent = new Intent(MainActivity.this, AddCategoryActivity.class);
             startActivity(intent);
         });
     }
