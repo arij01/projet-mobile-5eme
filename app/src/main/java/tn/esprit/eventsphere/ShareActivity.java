@@ -39,22 +39,22 @@ public class ShareActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this.getApplication());
 
-        // Initialize database and DAOs
+        // Initializing database and DAOs
         db = AppDatabase.getAppDatabase(this);
         eventDao = db.eventDao();
         shareDao = db.shareDao();
         executor = Executors.newSingleThreadExecutor();
 
-        // Initialize the share button
+        // Initializing share button
         Button shareButton = findViewById(R.id.share_button);
         shareButton.setOnClickListener(v -> showPlatformSelectionDialog());
     }
 
     private void showPlatformSelectionDialog() {
-        // Define available platforms
+
         String[] platforms = {"Facebook", "Twitter", "Instagram", "Other"};
 
-        // Create and display a dialog with platform options
+        //Alert pop up to choose a platform
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose a platform")
                 .setItems(platforms, new DialogInterface.OnClickListener() {
