@@ -38,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1001;
 
 
+
     private Button uploadImageButton;
     private TextView userNameText, userEmailText, firstNameView, lastNameView, emailView, roleView;
     //private ImageView profileImageView;
