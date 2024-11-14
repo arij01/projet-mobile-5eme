@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">EventSphreSocial</string>
+
+    <string name="facebook_app_id">536252055992308</string>
+    <string name="fb_login_protocol_scheme">fb536252055992308</string>
+    <string name="facebook_client_token">5360a2b85b68ad397294c7dc976b14c0</string>
+    <string name="event_image">Event Image</string>
+
+
+</resources>

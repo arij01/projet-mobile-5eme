@@ -1,0 +1,9 @@
+<!-- circle_border.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FCF3F6"/>
+            <stroke android:width="5dp" android:color="#673AB7"/> <!-- Same color as login button -->
+        </shape>
+    </item>
+</layer-list>
