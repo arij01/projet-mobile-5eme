@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Button to add event -->
+    <Button
+        android:id="@+id/addEventButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Event" />
+
+    <!-- Button to add category -->
+    <Button
+        android:id="@+id/addCategoryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add Category" />
+    <Button
+        android:id="@+id/viewEventListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="View Event List" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dimgray">#696969</color>
+    <!-- Couleurs principales de votre application -->
+    <color name="colorPrimary">#6200EE</color> <!-- Exemple de couleur violette -->
+    <color name="colorPrimaryDark">#3700B3</color> <!-- Couleur plus sombre pour la barre de statut -->
+    <color name="colorAccent">#03DAC5</color> <!-- Couleur d'accent -->
+    <color name="background_color">#F7F8FA</color>
+
+</resources>

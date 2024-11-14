@@ -1,0 +1,31 @@
+<!-- dialog_edit_event.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editEventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Name" />
+
+    <EditText
+        android:id="@+id/editEventDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Date" />
+
+    <EditText
+        android:id="@+id/editEventLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Location" />
+
+    <EditText
+        android:id="@+id/editEventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Description" />
+</LinearLayout>
