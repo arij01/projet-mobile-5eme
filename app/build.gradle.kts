@@ -48,6 +48,9 @@ dependencies {
 
     // Optional: If you are using Kotlin coroutines, add Room KTX
     implementation("androidx.room:room-ktx:2.5.0")
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
 
     // Testing dependencies
     testImplementation(libs.junit)

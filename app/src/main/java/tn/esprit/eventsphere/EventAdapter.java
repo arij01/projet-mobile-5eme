@@ -12,6 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.util.Hashtable;
 import java.util.List;
 
 import tn.esprit.eventsphere.entity.Event;
@@ -42,24 +47,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
 
-        // Affichage des détails de l'événement
+        // Display event details
         holder.eventNameTextView.setText(event.getName());
         holder.eventDateTextView.setText(event.getDate());
         holder.eventLocationTextView.setText(event.getLocation());
         holder.eventDescriptionTextView.setText(event.getDescription());
 
-        // Affichage de l'image
+        // Display the event image if available
         if (event.getImage() != null && event.getImage().length > 0) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(event.getImage(), 0, event.getImage().length);
             holder.eventImageView.setImageBitmap(bitmap);
         } else {
-            holder.eventImageView.setImageResource(R.drawable.image);  // Image par défaut si pas d'image
+            holder.eventImageView.setImageResource(R.drawable.image);  // Default image if no image is provided
         }
 
-        // Configuration du bouton d'édition
+        // Generate QR code for the event URL or other information
+        Bitmap qrCodeBitmap = generateQRCode(event.getName());  // Use event name as QR content or modify it as needed
+        holder.qrCodeImageView.setImageBitmap(qrCodeBitmap);
+
+        // Edit button setup
         holder.editButton.setOnClickListener(v -> listener.onEditEvent(event, position));
 
-        // Configuration du bouton de suppression
+        // Delete button setup
         holder.deleteButton.setOnClickListener(v -> listener.onDeleteEvent(event, position));
     }
 
@@ -68,22 +77,51 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return eventList.size();
     }
 
+    // Method to generate QR code bitmap
+    private Bitmap generateQRCode(String content) {
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            Hashtable<EncodeHintType, String> hintMap = new Hashtable<>();
+            hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+            Bitmap bitmap = toBitmap(qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200, hintMap));
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Convert a Matrix to Bitmap
+    private Bitmap toBitmap(com.google.zxing.common.BitMatrix matrix) {
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                bitmap.setPixel(x, y, matrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF);
+            }
+        }
+        return bitmap;
+    }
+
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameTextView, eventDateTextView, eventLocationTextView, eventDescriptionTextView;
         Button editButton, deleteButton;
-        ImageView eventImageView;
+        ImageView eventImageView, qrCodeImageView;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // Liaison des vues avec les IDs définis dans event_item.xml
+            // Bind views
             eventNameTextView = itemView.findViewById(R.id.eventNameTextView);
             eventDateTextView = itemView.findViewById(R.id.eventDateTextView);
             eventLocationTextView = itemView.findViewById(R.id.eventLocationTextView);
             eventDescriptionTextView = itemView.findViewById(R.id.eventDescriptionTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
-            eventImageView = itemView.findViewById(R.id.eventImageView);  // Référence à l'ImageView
+            eventImageView = itemView.findViewById(R.id.eventImageView);
+            qrCodeImageView = itemView.findViewById(R.id.qrCodeImageView);  // Reference to the QR code ImageView
         }
     }
 }
